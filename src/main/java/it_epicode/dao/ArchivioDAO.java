@@ -25,8 +25,6 @@ public class ArchivioDAO {
         et.begin();
         em.persist(catalogo);
         et.commit();
-        em.close();
-
     }
 
     public void salvaUtente(Utente u){
@@ -36,7 +34,6 @@ public class ArchivioDAO {
         em.persist(u);
 
         et.commit();
-        em.close();
     }
 
     public void salvaRivista(Rivista r){
@@ -46,7 +43,6 @@ public class ArchivioDAO {
         em.persist(r);
 
         et.commit();
-        em.close();
     }
 
     public void rimuoviElementoCatalogo(int ISBN){
@@ -58,10 +54,9 @@ public class ArchivioDAO {
            em.remove(catalogo);
         }
         et.commit();
-        em.close();
     }
 
-    public Catalogo ricercaPerISBN(String ISBN) {
+    public Catalogo ricercaPerISBN(int ISBN) {
         return em.find(Catalogo.class, ISBN);
     }
 
@@ -98,5 +93,8 @@ public class ArchivioDAO {
         return query.getResultList();
     }
 
-
+    public void close(){
+        em.close();
+        emf.close();
+    }
 }
