@@ -4,25 +4,35 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "rivista")
-@NamedQuery(name = "getRicercaPerAnnoPubblicazione", query = "select r from Rivista r where r.annoPubblicazione = :anno")
-@NamedQuery(name = "getRicercaPerAutore", query = "SELECT r FROM Rivista r WHERE r.autore = :autore")
-@NamedQuery(name = "getRicercaPerTitolo", query = "SELECT r FROM Rivista r WHERE LOWER(r.titolo) LIKE LOWER(:titolo)")
-@NamedQuery(name = "getRicercaElementiInPrestito", query = "SELECT p.elementoPrestato FROM Prestito p WHERE p.utente.numeroTessera = :numeroTessera AND p.dataRestituzioneEffettiva IS NULL")
-public class Rivista {
+@Table(name = "catalogo")
+@NamedQuery(name = "getRicercaPerAnnoPubblicazione", query = "SELECT c FROM Catalogo c WHERE c.annoPubblicazione = :anno")
+@NamedQuery(name = "getRicercaPerTitolo", query = "SELECT c FROM Catalogo c WHERE LOWER(c.titolo) LIKE LOWER(:titolo)")
+public class Catalogo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(unique = true)
     private String ISBN;
     private String titolo;
     @Column(name = "anno_pubblicazione")
     private LocalDate annoPubblicazione;
     private int numeropagine;
 
-    public Rivista() {
+    public Catalogo() {
     }
 
+    public Catalogo(int id, String ISBN, String titolo, LocalDate annoPubblicazione, int numeropagine) {
+        this.id = id;
+        this.ISBN = ISBN;
+        this.titolo = titolo;
+        this.annoPubblicazione = annoPubblicazione;
+        this.numeropagine = numeropagine;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public String getISBN() {
         return ISBN;
@@ -40,8 +50,8 @@ public class Rivista {
         return numeropagine;
     }
 
-    public Periodicita getPeriodicita() {
-        return periodicita;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setISBN(String ISBN) {
@@ -60,18 +70,14 @@ public class Rivista {
         this.numeropagine = numeropagine;
     }
 
-    public void setPeriodicita(Periodicita periodicita) {
-        this.periodicita = periodicita;
-    }
-
     @Override
     public String toString() {
         return "Rivista{" +
-                "ISBN='" + ISBN + '\'' +
+                "id=" + id +
+                ", ISBN='" + ISBN + '\'' +
                 ", titolo='" + titolo + '\'' +
                 ", annoPubblicazione=" + annoPubblicazione +
                 ", numeropagine=" + numeropagine +
-                ", periodicita=" + periodicita +
                 '}';
     }
 }

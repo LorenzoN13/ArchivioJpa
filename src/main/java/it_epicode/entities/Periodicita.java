@@ -1,2 +1,5 @@
-package it_epicode.entities;public enum Periodicita {
+package it_epicode.entities;
+
+public enum Periodicita {
+    SETTIMANALE, MENSILE, SEMESTRALE
 }
